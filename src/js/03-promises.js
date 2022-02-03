@@ -18,11 +18,11 @@ function createPromise(position, delay) {
 };
 const handleForm = (event) => { 
   event.preventDefault();
-  for (let i = 1; i <=inputAmountEl.value ; i++) {
-     setTimeout(() => {
-   createPromise(i, inputStepEl.value).then(value=>{value}).catch(error=>{error})
- },inputDelayEl.value)    
-  }    
+  let firstDelay = Number(inputDelayEl.value);
+  for (let i = 1; i <= inputAmountEl.value; i++) {       
+    createPromise(i, firstDelay).then(value => { value }).catch(error => { error });
+    firstDelay+=Number(inputStepEl.value)
+    }
 };
 
 formEl.addEventListener("submit", handleForm)
