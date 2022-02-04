@@ -10,9 +10,15 @@ function createPromise(position, delay) {
     setTimeout(() => {
       const shouldResolve = Math.random() > 0.3;
       if (shouldResolve) {
-        resolve(Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`))
+        resolve({
+          position: position,
+          delay:delay,
+        })
       } else {
-       reject (Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`))
+        reject({
+         position: position,
+         delay:delay,
+       })
       }
     }, delay)})
 };
@@ -20,7 +26,9 @@ const handleForm = (event) => {
   event.preventDefault();
   let firstDelay = Number(inputDelayEl.value);
   for (let i = 1; i <= inputAmountEl.value; i++) {       
-    createPromise(i, firstDelay).then(value => { value }).catch(error => { error });
+    createPromise(i, firstDelay)
+      .then(({ position, delay }) => { Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`) })
+      .catch(({ position, delay }) => { Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`) });
     firstDelay+=Number(inputStepEl.value)
     }
 };
